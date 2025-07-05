@@ -2,7 +2,7 @@
 
 A clean, responsive, and accessible website for Dr. Serena Blake, PsyD (Clinical Psychologist) built with **Next.js 14**, **Tailwind CSS**, and **Framer Motion**.
 
-> 📍 Live: [https://therapist-website.vercel.app](https://therapist-website.vercel.app)
+> 📍 Live: [https://therapist-website-ten-henna.vercel.app/](https://therapist-website-ten-henna.vercel.app/)
 
 ---
 
