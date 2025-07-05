@@ -13,13 +13,22 @@ export default function Contact() {
   })
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value, type, checked } = e.target
+ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const { name, value, type } = e.target;
+  
+  if (type === "checkbox") {
+    setFormData(prev => ({
+      ...prev,
+      [name]: (e.target as HTMLInputElement).checked
+    }));
+  } else {
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
   }
+};
+
 
   const validate = () => {
     let newErrors: { [key: string]: string } = {}
