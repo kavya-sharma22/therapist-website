@@ -2,7 +2,6 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
 
-
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
@@ -14,22 +13,13 @@ export default function Contact() {
   })
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
 
- const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-  const { name, value, type } = e.target;
-  
-  if (type === "checkbox") {
-    setFormData(prev => ({
-      ...prev,
-      [name]: (e.target as HTMLInputElement).checked
-    }));
-  } else {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type, checked } = e.target
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
   }
-};
-
 
   const validate = () => {
     let newErrors: { [key: string]: string } = {}
@@ -69,7 +59,7 @@ export default function Contact() {
       transition={{ duration: 0.8 }}
     >
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
-        {/* Left: existing contact cards with fade-in */}
+        {/* Left: contact cards */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -80,28 +70,24 @@ export default function Contact() {
             Dr. Serena Blake, PsyD (Clinical Psychologist)
           </h2>
           <div className="grid gap-6">
-            {[
-              {
-                title: "Location:",
-                content: "1287 Maplewood Drive, Los Angeles, CA 90026"
-              },
-              {
-                title: "Contact:",
-                content: <>
-                  Phone: (323) 555-0192<br />
-                  Email: <a href="mailto:serena@blakepsychology.com" className="text-[#BFA28A] underline">
-                    serena@blakepsychology.com
-                  </a>
-                </>
-              },
-              {
-                title: "Office Hours:",
-                content: <>
-                  <span className="font-bold">In-person:</span> Tue & Thu, 10 AM–6 PM<br />
-                  <span className="font-bold">Virtual via Zoom:</span> Mon, Wed & Fri, 1 PM–5 PM
-                </>
-              }
-            ].map((item, idx) => (
+            {[{
+              title: "Location:",
+              content: "1287 Maplewood Drive, Los Angeles, CA 90026"
+            },
+            {
+              title: "Contact:",
+              content: <>
+                Phone: (323) 555-0192<br/>
+                Email: <a href="mailto:serena@blakepsychology.com" className="text-[#BFA28A] underline">serena@blakepsychology.com</a>
+              </>
+            },
+            {
+              title: "Office Hours:",
+              content: <>
+                <span className="font-bold">In-person:</span> Tue & Thu, 10 AM–6 PM<br/>
+                <span className="font-bold">Virtual via Zoom:</span> Mon, Wed & Fri, 1 PM–5 PM
+              </>
+            }].map((item, idx) => (
               <motion.div 
                 key={idx}
                 className="bg-[#f5eee6] rounded-xl shadow p-6"
@@ -117,7 +103,7 @@ export default function Contact() {
           </div>
         </motion.div>
 
-        {/* Right: contact form with fade-in */}
+        {/* Right: contact form */}
         <motion.form
           onSubmit={handleSubmit}
           className="bg-[#f5eee6] rounded-xl shadow p-6 space-y-4"
@@ -127,16 +113,11 @@ export default function Contact() {
           transition={{ duration: 0.8 }}
         >
           <h3 className="text-xl font-semibold mb-2">Send a Message</h3>
-
-          {[
-            { label: "Name", name: "name", type: "text" },
-            { label: "Phone", name: "phone", type: "text" },
-            { label: "Email", name: "email", type: "email" },
-          ].map(({ label, name, type }) => (
+          {["name", "phone", "email"].map(name => (
             <div key={name}>
-              <label className="block mb-1 font-medium">{label}</label>
+              <label className="block mb-1 font-medium">{name[0].toUpperCase() + name.slice(1)}</label>
               <input
-                type={type}
+                type={name === "email" ? "email" : "text"}
                 name={name}
                 value={(formData as any)[name]}
                 onChange={handleChange}
@@ -145,7 +126,6 @@ export default function Contact() {
               {errors[name] && <p className="text-red-600 text-sm">{errors[name]}</p>}
             </div>
           ))}
-
           <div>
             <label className="block mb-1 font-medium">What brings you here?</label>
             <textarea
@@ -157,7 +137,6 @@ export default function Contact() {
             ></textarea>
             {errors.message && <p className="text-red-600 text-sm">{errors.message}</p>}
           </div>
-
           <div>
             <label className="block mb-1 font-medium">Preferred time to reach you</label>
             <input
@@ -169,7 +148,6 @@ export default function Contact() {
             />
             {errors.preferredTime && <p className="text-red-600 text-sm">{errors.preferredTime}</p>}
           </div>
-
           <div className="flex items-center">
             <input
               type="checkbox"
@@ -181,7 +159,6 @@ export default function Contact() {
             <label>I agree to be contacted</label>
           </div>
           {errors.agree && <p className="text-red-600 text-sm">{errors.agree}</p>}
-
           <button
             type="submit"
             className="bg-[#BFA28A] text-white px-6 py-3 rounded hover:bg-[#a88c74] hover:scale-105 transition transform"
