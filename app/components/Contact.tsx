@@ -15,18 +15,12 @@ export default function Contact() {
 
  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
   const { name, value, type } = e.target;
-  
-  if (type === "checkbox") {
-    setFormData(prev => ({
-      ...prev,
-      [name]: (e.target as HTMLInputElement).checked
-    }));
-  } else {
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  }
+  setFormData(prev => ({
+    ...prev,
+    [name]: type === "checkbox"
+      ? (e.target as HTMLInputElement).checked
+      : value
+  }));
 };
 
 
